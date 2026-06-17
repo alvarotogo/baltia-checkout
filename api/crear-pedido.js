@@ -58,7 +58,7 @@ export default async function handler(req, res) {
   // otra comprobación. El navegador manda una petición OPTIONS (preflight)
   // antes del POST real, y si no responde aquí con estas cabeceras,
   // el navegador bloquea la petición real con un error de CORS.
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://www.togoanimalcare.com');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
  
