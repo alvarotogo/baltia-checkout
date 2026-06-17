@@ -54,21 +54,22 @@ async function getAccessToken() {
 }
  
 export default async function handler(req, res) {
-  // Solo aceptamos peticiones POST
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).json({ error: 'Método no permitido' });
-  }
- 
-  // CORS: de momento permitimos cualquier origen para poder probar.
-  // Más adelante, cuando todo funcione, lo restringiremos solo a
-  // https://www.togoanimalcare.com por seguridad.
+  // CORS: estas cabeceras deben ir SIEMPRE primero, antes de cualquier
+  // otra comprobación. El navegador manda una petición OPTIONS (preflight)
+  // antes del POST real, y si no responde aquí con estas cabeceras,
+  // el navegador bloquea la petición real con un error de CORS.
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
  
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
+  }
+ 
+  // Solo aceptamos peticiones POST a partir de aquí
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).json({ error: 'Método no permitido' });
   }
  
   try {
