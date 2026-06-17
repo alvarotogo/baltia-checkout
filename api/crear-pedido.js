@@ -107,7 +107,11 @@ export default async function handler(req, res) {
     const accessToken = await getAccessToken();
  
     // 2. Usar ese token para crear el Draft Order
-    const shopifyUrl = `https://${process.env.SHOPIFY_STORE}/admin/api/2024-10/draft_orders.json`;
+    //    NOTA: payload simplificado al mínimo (solo line_items + note),
+    //    igual que el ejemplo oficial de Shopify, para descartar que
+    //    campos opcionales (tags, requires_shipping, etc.) influyeran
+    //    en el bloqueo por protected customer data.
+    const shopifyUrl = `https://${process.env.SHOPIFY_STORE}/admin/api/2024-01/draft_orders.json`;
  
     const draftOrderPayload = {
       draft_order: {
@@ -116,13 +120,9 @@ export default async function handler(req, res) {
             title: tituloLinea,
             price: precioFinal.toFixed(2),
             quantity: 1,
-            requires_shipping: false,
-            taxable: true,
           },
         ],
         note: notaPedido,
-        tags: `calculadora-baltia, ${esAnual ? 'anual' : 'mensual'}`,
-        use_customer_default_address: false,
       },
     };
  
