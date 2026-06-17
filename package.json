@@ -1,0 +1,6 @@
+{
+  "name": "baltia-checkout",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend ligero para crear pedidos dinámicos de Baltia en Shopify"
+}
